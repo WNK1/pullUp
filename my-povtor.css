@@ -1,0 +1,27 @@
+* {
+  margin: 0px;
+  padding: 0px;
+  max-width: 100%;
+  max-height: 100%;
+}
+
+body {
+  background: linear-gradient(124deg, rgb(16, 34, 42) 0%, rgb(38, 69, 82) 74%);
+  height: 100vh;
+}
+
+.header .header__container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.main .main__container {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  flex: 1 1;
+}
+.footer .footer__container {
+  display: flex;
+  justify-content: center;
+}/*# sourceMappingURL=my-povtor.css.map */
