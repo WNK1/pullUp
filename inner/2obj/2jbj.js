@@ -92,7 +92,7 @@ console.log(newObj.myName);
 
 //переделываем верхнюю часть кода в объекты и их синтаксис
 
-const preloadMas = [
+const note = [
   {
     contents: "досмотреть полный курс по js",
     completed: false,
@@ -105,14 +105,21 @@ const preloadMas = [
 
 //переносим метод - функцию render которую уже писали и адаптируем под объекты и инфу содержающиюся в бъектах
 function render() {
-  for (let note of preloadMas) {
-    elementList.insertAdjacentHTML("beforeend", getNotesPreDownload(note)); //есть один минус что нельзя определить сколько
-    // переменных в нашем случае будут сразу же предзагружаться
+  // for (let note of preloadMas) {
+  //   elementList.insertAdjacentHTML("beforeend", getNotesPreDownload(note)); //есть один минус что нельзя определить сколько
+  //   // переменных в нашем случае будут сразу же предзагружаться
+  // }
+  elementList.innerHTML = ""; //просто очищаем шаблон каждый раз когда добавляем новый элемент
+  for (i = 0; i < note.length; i++) {
+    elementList.insertAdjacentHTML(
+      "beforeend",
+      getNotesPreDownload(note[i], i)
+    );
   }
 }
 render();
 
-function getNotesPreDownload(note) {
+function getNotesPreDownload(note, index) {
   return `
     <li class="list-group-item d-flex justify-content-between align-items-center">
       <span class="${note.completed ? "text-decoration-line-through" : ""}">${
@@ -120,23 +127,45 @@ function getNotesPreDownload(note) {
   }
       </span>
       <span>
-        <span class="btn btn-small btn-success">&check;</span>
-        <span class="btn btn-small btn-danger">&times;</span>
+        <span class="btn btn-small btn-${
+          note.completed ? "warning" : "success" //тут мы так же проверяем чему равно действие true/false
+          // и меняем цвет кнопки в зависимости от значения
+        }" data-index="${index}" data-type="toggle"  >&check;</span> 
+        <span class="btn btn-small btn-danger" data-index="${index}" data-type="remove">&times;</span>
       </span>
     </li>
   `;
 }
+elementList.onclick = function (event) {
+  //здесь мы делаем делегировани события на кнопки и так же узнаем индекс
+  //на какой именно элемент был клик ,
+  //================   console.log(event.target.dataset); !!!!! //то есть сначала обрабатывается тарген эвента , на что он навешен какой индекс ему принадлежит , dataset - выводит объект со всеми данными дата атрибутов и с
+  // помощью них мы уже можем определить какой индекс и какая именно кнопка добавить / удалить ?
 
+  //но нам так же нужно выводить в консоль все данные дата атрибутов только тогда когда нам известен индекс и на что было нажато
+  // и должны исользовать проверку что бы не было undefinded
+
+  if (event.target.dataset.index) {
+    const type = event.target.dataset.type;
+    const index = parseInt(event.target.dataset.index);
+    if (type == "toggle") {
+      note[index].completed = !note[index].completed;
+    } else if (type == "remove") {
+      note.splice(index, 1); //если тип remove то что бы удалить данную заметку используем метод сплайс
+      // где 1 указываем элемент - какой индекс у элемента и сколько элементов надо уалить
+    }
+    render();
+  }
+};
 createBtn.onclick = function () {
   if (input.value.trim().length === 0) {
     return; // Не добавляем пустые заметки //trim уберает пробелы до и после какой то строки послания - каких либо словосочетаний
   }
-  const objValue = {
+  const newNotes = {
     contents: input.value,
     completed: false,
   };
-  elementList.insertAdjacentHTML("beforeend", getNotesPreDownload(objValue));
+  note.push(newNotes);
+  render();
   input.value = ""; // Очищаем поле ввода
 };
-
-//========================= last time примерно 2:20
