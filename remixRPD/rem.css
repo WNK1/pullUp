@@ -1,0 +1,29 @@
+@charset "UTF-8";
+body {
+  background-color: rgb(15, 15, 15);
+  font-family: "Lucida Sans", "Lucida Sans Regular", "Lucida Grande", "Lucida Sans Unicode", Geneva, Verdana, sans-serif;
+  color: #adff2f;
+}
+
+.aboba {
+  width: 500px;
+  height: 200px;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  margin: 0px 0px 0px 39%;
+}
+.aboba h1 {
+  font-size: 25;
+  text-shadow: 2px 3px 5px rgb(173, 255, 47);
+}
+.aboba p {
+  display: flex;
+  justify-content: flex-end;
+  font-size: 12;
+  color: rgb(74, 74, 74);
+  text-shadow: 2px 3px 4px rgb(0, 0, 0);
+}
+.aboba p:before {
+  content: "®";
+}/*# sourceMappingURL=rem.css.map */
